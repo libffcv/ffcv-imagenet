@@ -1,9 +1,11 @@
 # `ffcv` ImageNet Training
+A minimal PyTorch ImageNet training script designed for hackability. Use this script to get...
+- ...high accuracies on ImageNet
+- ...with as many lines of code as the PyTorch ImageNet example
+- ...in 1/10th the time.
 
-## Models and Configurations
-### Results
-
-<img src="../../docs/_static/perf_scatterplot.svg" width='830px'/>
+## Results
+<img src="assets/perf_scatterplot.svg" width='830px'/>
 
 See benchmark setup here: [https://docs.ffcv.io/benchmarks.html](https://docs.ffcv.io/benchmarks.html).
 
