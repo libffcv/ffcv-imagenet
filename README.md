@@ -10,7 +10,20 @@ Train models more efficiently, either with 8 GPUs in parallel or by training 8 R
 
 See benchmark setup here: [https://docs.ffcv.io/benchmarks.html](https://docs.ffcv.io/benchmarks.html).
 
-### Configurations
+## Citation
+If you use this setup in your research, cite:
+
+```
+@misc{leclerc2022ffcv,
+    author = {Guillaume Leclerc and Andrew Ilyas and Logan Engstrom and Sung Min Park and Hadi Salman and Aleksander Madry},
+    title = {ffcv},
+    year = {2022},
+    howpublished = {\url{https://github.com/libffcv/ffcv/}},
+    note = {commit xxxxxxx}
+}
+```
+
+## Configurations
 The configs corresponding to the above results are:
 
 | Link to Config                                                                                                                         |   top_1 |   top_5 |   # Epochs |   Time (mins) | Architecture   | Setup    |
