@@ -69,7 +69,8 @@ Adjust the configuration by either changing the passed YAML file or by specifyin
 <p><b>System setup.</b> We trained on p4.24xlarge ec2 instances (8 A100s).
 </p>
 
-<p><b>Dataset setup.</b>
+<p><b>Dataset setup. Generally larger side length will aid in accuracy but decrease
+throughput:</b>
 
  - ResNet-50 training: 50% JPEG 500px side length
  - ResNet-18 training: 10% JPEG 400px side length
