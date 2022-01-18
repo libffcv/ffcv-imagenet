@@ -95,15 +95,6 @@ To obtain configurations we first gridded for hyperparameters at a 30 epoch sche
 ### Why is the first epoch slow?
 The first epoch can be slow for the first epoch if the dataset hasn't been cached in memory yet.
 
-### How do I choose my dataset parameters?
-If you want to reproduce our numbers you will need to make a dataset that can fully saturate your GPUs when loaded; 
-we recommend making your dataset in-memory with the following (sweeping) guidelines depending on your system:
-
-- \>500 GB RAM, >46 cores: Run `./write_dataset.sh 400 0.10 90`
-- 300-500 GB RAM, >24 cores: Run `./write_dataset.sh 350 0.10 90`
-
-These may not work depending on your system. Refer to [the performance guide](https://docs.ffcv.io/performance_guide.html) for guidelines that you can apply more specifically; we strongly recommend generating a dataset (a) small enough to fully fit in memory and (b) fast enough to decode that your GPU is saturated. 
-
 ### What if I can't fit my dataset in memory?
 See this [guide here](https://docs.ffcv.io/parameter_tuning.html#scenario-large-scale-datasets).
 
