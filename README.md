@@ -73,7 +73,7 @@ export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 python train_imagenet.py --config-file rn50_configs/<your config file>.yaml \
     --data.train_dataset=/path/to/train/dataset.ffcv \
     --data.val_dataset=/path/to/val/dataset.ffcv \
-	--data.num_workers=12 --data.in_memory=1
+    --data.num_workers=12 --data.in_memory=1 \
     --logging.folder=/your/path/here
 ```
 Adjust the configuration by either changing the passed YAML file or by specifying arguments via [fastargs](https://github.com/GuillaumeLeclerc/fastargs) (i.e. how the dataset paths were passed above).
