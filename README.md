@@ -58,10 +58,10 @@ export WRITE_DIR=/your/path/here/
 cd examples;
 
 # Serialize images with:
-# - 400px side length maximum
-# - 10% JPEG encoded, 90% raw pixel values
+# - 500px side length maximum
+# - 50% JPEG encoded, 90% raw pixel values
 # - quality=90 JPEGs
-./write_dataset.sh 400 0.10 90
+./write_dataset.sh 500 0.50 90
 ```
 Then, choose a configuration from the [configuration table](#configurations). With the config file path in hand, train as follows:
 ```bash
