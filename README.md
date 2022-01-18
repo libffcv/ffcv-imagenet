@@ -1,5 +1,5 @@
 # `ffcv` ImageNet Training
-A minimal PyTorch ImageNet training script designed for hackability. Use this script to get...
+A minimal, single-file PyTorch ImageNet training script designed for hackability. Use `train_imagenet.py` to get...
 - ...high accuracies on ImageNet
 - ...with as many lines of code as the PyTorch ImageNet example
 - ...in 1/10th the time.
