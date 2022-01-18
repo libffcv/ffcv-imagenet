@@ -24,7 +24,7 @@ If you use this setup in your research, cite:
 ```
 
 ## Configurations
-The configs corresponding to the above results are:
+The configuration files corresponding to the above results are:
 
 | Link to Config                                                                                                                         |   top_1 |   top_5 |   # Epochs |   Time (mins) | Architecture   | Setup    |
 |:---------------------------------------------------------------------------------------------------------------------------------------|--------:|--------:|-----------:|--------------:|:---------------|:---------|
