@@ -65,7 +65,7 @@ cd examples;
 ```
 Then, choose a configuration from the [configuration table](#configurations). With the config file path in hand, train as follows:
 ```bash
-# 1 GPU training
+# 8 GPU training (use only 1 for ResNet-18 training)
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 
 # Set the visible GPUs according to the `world_size` configuration parameter
