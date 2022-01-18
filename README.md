@@ -5,6 +5,7 @@ A minimal PyTorch ImageNet training script designed for hackability. Use this sc
 - ...in 1/10th the time.
 
 ## Results
+Train models more efficiently, either with 8 GPUs in parallel or by training 8 ResNet-18's at once.
 <img src="assets/perf_scatterplot.svg" width='830px'/>
 
 See benchmark setup here: [https://docs.ffcv.io/benchmarks.html](https://docs.ffcv.io/benchmarks.html).
@@ -65,15 +66,23 @@ python train_imagenet.py --config-file rn18_configs/<your config file>.yaml \
 Adjust the configuration by either changing the passed YAML file or by specifying arguments via [fastargs](https://github.com/GuillaumeLeclerc/fastargs) (i.e. how the dataset paths were passed above).
 
 ## Training Details
-<p><b>System setup.</b> We trained on p4.24xlarge ec2 instances and on our own cluster machines (9 A100s / 504GB RAM / 48 cores).
+<p><b>System setup.</b> We trained on p4.24xlarge ec2 instances (8 A100s).
 </p>
+
+<p><b>Dataset setup.</b>
+
+ - ResNet-50 training: 50% JPEG 500px side length
+ - ResNet-18 training: 10% JPEG 400px side length
+
+</p>
+
 
 <p><b>Algorithmic details.</b> We use a standard ImageNet training pipeline (à la the PyTorch ImageNet example) with only the following differences/highlights:
 
-- SGD optimizer with momentum
+- SGD optimizer with momentum and weight decay on all non-batchnorm parameters
 - Test-time augmentation over left/right flips
-- Validation set sizing according to ["Fixing the train-test resolution discrepancy"](https://arxiv.org/abs/1906.06423) 
-- Progressive resizing from 160px to 196px
+- Progressive resizing from 160px to 192px: 160px training until 75% of the way through training (by epochs), then 192px until the end of training.
+- Validation set sizing according to ["Fixing the train-test resolution discrepancy"](https://arxiv.org/abs/1906.06423): 224px at test time.
 - Label smoothing
 - Cyclic learning rate schedule
 </p>
