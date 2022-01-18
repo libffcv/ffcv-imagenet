@@ -5,12 +5,26 @@ A minimal PyTorch ImageNet training script designed for hackability. Use this sc
 - ...in 1/10th the time.
 
 ## Results
+Train models more efficiently, either with 8 GPUs in parallel or by training 8 ResNet-18's at once.
 <img src="assets/perf_scatterplot.svg" width='830px'/>
 
 See benchmark setup here: [https://docs.ffcv.io/benchmarks.html](https://docs.ffcv.io/benchmarks.html).
 
-### Configurations
-The configs corresponding to the above results are:
+## Citation
+If you use this setup in your research, cite:
+
+```
+@misc{leclerc2022ffcv,
+    author = {Guillaume Leclerc and Andrew Ilyas and Logan Engstrom and Sung Min Park and Hadi Salman and Aleksander Madry},
+    title = {ffcv},
+    year = {2022},
+    howpublished = {\url{https://github.com/libffcv/ffcv/}},
+    note = {commit xxxxxxx}
+}
+```
+
+## Configurations
+The configuration files corresponding to the above results are:
 
 | Link to Config                                                                                                                         |   top_1 |   top_5 |   # Epochs |   Time (mins) | Architecture   | Setup    |
 |:---------------------------------------------------------------------------------------------------------------------------------------|--------:|--------:|-----------:|--------------:|:---------------|:---------|
@@ -44,36 +58,45 @@ export WRITE_DIR=/your/path/here/
 cd examples;
 
 # Serialize images with:
-# - 400px side length maximum
-# - 10% JPEG encoded, 90% raw pixel values
+# - 500px side length maximum
+# - 50% JPEG encoded, 90% raw pixel values
 # - quality=90 JPEGs
-./write_dataset.sh 400 0.10 90
+./write_dataset.sh 500 0.50 90
 ```
 Then, choose a configuration from the [configuration table](#configurations). With the config file path in hand, train as follows:
 ```bash
 # 1 GPU training
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 
 # Set the visible GPUs according to the `world_size` configuration parameter
 # Modify `data.in_memory` and `data.num_workers` based on your machine
-python train_imagenet.py --config-file rn18_configs/<your config file>.yaml \
+python train_imagenet.py --config-file rn50_configs/<your config file>.yaml \
     --data.train_dataset=/path/to/train/dataset.ffcv \
     --data.val_dataset=/path/to/val/dataset.ffcv \
-	--data.num_workers=12 --data.in_memory=1 
+    --data.num_workers=12 --data.in_memory=1 \
     --logging.folder=/your/path/here
 ```
 Adjust the configuration by either changing the passed YAML file or by specifying arguments via [fastargs](https://github.com/GuillaumeLeclerc/fastargs) (i.e. how the dataset paths were passed above).
 
 ## Training Details
-<p><b>System setup.</b> We trained on p4.24xlarge ec2 instances and on our own cluster machines (9 A100s / 504GB RAM / 48 cores).
+<p><b>System setup.</b> We trained on p4.24xlarge ec2 instances (8 A100s).
 </p>
+
+<p><b>Dataset setup. Generally larger side length will aid in accuracy but decrease
+throughput:</b>
+
+ - ResNet-50 training: 50% JPEG 500px side length
+ - ResNet-18 training: 10% JPEG 400px side length
+
+</p>
+
 
 <p><b>Algorithmic details.</b> We use a standard ImageNet training pipeline (à la the PyTorch ImageNet example) with only the following differences/highlights:
 
-- SGD optimizer with momentum
+- SGD optimizer with momentum and weight decay on all non-batchnorm parameters
 - Test-time augmentation over left/right flips
-- Validation set sizing according to ["Fixing the train-test resolution discrepancy"](https://arxiv.org/abs/1906.06423) 
-- Progressive resizing from 160px to 196px
+- Progressive resizing from 160px to 192px: 160px training until 75% of the way through training (by epochs), then 192px until the end of training.
+- Validation set sizing according to ["Fixing the train-test resolution discrepancy"](https://arxiv.org/abs/1906.06423): 224px at test time.
 - Label smoothing
 - Cyclic learning rate schedule
 </p>
@@ -84,15 +107,6 @@ To obtain configurations we first gridded for hyperparameters at a 30 epoch sche
 ## FAQ
 ### Why is the first epoch slow?
 The first epoch can be slow for the first epoch if the dataset hasn't been cached in memory yet.
-
-### How do I choose my dataset parameters?
-If you want to reproduce our numbers you will need to make a dataset that can fully saturate your GPUs when loaded; 
-we recommend making your dataset in-memory with the following (sweeping) guidelines depending on your system:
-
-- \>500 GB RAM, >46 cores: Run `./write_dataset.sh 400 0.10 90`
-- 300-500 GB RAM, >24 cores: Run `./write_dataset.sh 350 0.10 90`
-
-These may not work depending on your system. Refer to [the performance guide](https://docs.ffcv.io/performance_guide.html) for guidelines that you can apply more specifically; we strongly recommend generating a dataset (a) small enough to fully fit in memory and (b) fast enough to decode that your GPU is saturated. 
 
 ### What if I can't fit my dataset in memory?
 See this [guide here](https://docs.ffcv.io/parameter_tuning.html#scenario-large-scale-datasets).
