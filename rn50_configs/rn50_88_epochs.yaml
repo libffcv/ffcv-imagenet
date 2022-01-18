@@ -24,6 +24,7 @@ training:
   momentum: 0.9
   optimizer: sgd
   weight_decay: 0.0001
+  use_blurpool: 1
 validation:
   lr_tta: true
   resolution: 256
