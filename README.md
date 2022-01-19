@@ -22,6 +22,7 @@ If you use this setup in your research, cite:
     note = {commit xxxxxxx}
 }
 ```
+(Make sure to replace ``xxxxxxx`` above with the hash of the commit used!)
 
 ## Configurations
 The configuration files corresponding to the above results are:
@@ -61,7 +62,7 @@ cd examples;
 # - 500px side length maximum
 # - 50% JPEG encoded, 90% raw pixel values
 # - quality=90 JPEGs
-./write_dataset.sh 500 0.50 90
+./write_imagenet.sh 500 0.50 90
 ```
 Then, choose a configuration from the [configuration table](#configurations). With the config file path in hand, train as follows:
 ```bash
