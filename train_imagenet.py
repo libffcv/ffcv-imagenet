@@ -391,11 +391,6 @@ class ImageNetTrainer:
                 iterator.set_description(msg)
             ### Logging end
 
-        if log_level > 0:
-            loss = ch.stack(losses).mean().cpu()
-            assert not ch.isnan(loss), 'Loss is NaN!'
-            return loss.item()
-
     @param('validation.lr_tta')
     def val_loop(self, lr_tta):
         model = self.model
