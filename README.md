@@ -60,7 +60,7 @@ cd examples;
 
 # Serialize images with:
 # - 500px side length maximum
-# - 50% JPEG encoded, 90% raw pixel values
+# - 50% JPEG encoded
 # - quality=90 JPEGs
 ./write_imagenet.sh 500 0.50 90
 ```
