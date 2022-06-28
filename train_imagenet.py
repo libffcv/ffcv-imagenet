@@ -232,7 +232,7 @@ class ImageNetTrainer:
         label_pipeline: List[Operation] = [
             IntDecoder(),
             ToTensor(),
-            Squeeze(),
+            Squeeze(-1),
             ToDevice(ch.device(this_device), non_blocking=True)
         ]
 
@@ -274,7 +274,7 @@ class ImageNetTrainer:
         label_pipeline = [
             IntDecoder(),
             ToTensor(),
-            Squeeze(),
+            Squeeze(-1),
             ToDevice(ch.device(this_device),
             non_blocking=True)
         ]
