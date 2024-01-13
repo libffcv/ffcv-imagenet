@@ -14,7 +14,7 @@ Section('cfg', 'arguments to give the writer').params(
     split=Param(And(str, OneOf(['train', 'val'])), 'Train or val set', required=True),
     data_dir=Param(str, 'Where to find the PyTorch dataset', required=True),
     write_path=Param(str, 'Where to write the new dataset', required=True),
-    write_mode=Param(str, 'Mode: raw, smart or jpg', required=False, default='smart'),
+    write_mode=Param(str, 'Mode: raw, smart, proportion, or jpg', required=False, default='smart'),
     max_resolution=Param(int, 'Max image side length', required=True),
     num_workers=Param(int, 'Number of workers to use', default=16),
     chunk_size=Param(int, 'Chunk size for writing', default=100),
